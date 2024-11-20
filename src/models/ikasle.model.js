@@ -21,9 +21,13 @@ const ikasleSchema = new mongoose.Schema({
 });
 
 // Middleware-ak
-ikasleSchema.pre('save', function(next) {
+ikasleSchema.pre('save', function (next) {
     this.izena = this.izena.charAt(0).toUpperCase() + this.izena.slice(1);
     next();
 });
+//Check Email
+ikasleSchema.path('email').validate(function (email) {
+    return email.includes('@');
+}, 'Email-ak @ izan behar du');
 
 module.exports = mongoose.model('Ikasle', ikasleSchema);
